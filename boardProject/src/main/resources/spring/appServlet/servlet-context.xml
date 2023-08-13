@@ -25,12 +25,7 @@
 						
 	 	component-scan : @Component와 자식 어노테이션을 Bean으로 등록하는 태그
 
-
-
-
-
-
-트랜잭션 관리자, 웹소켓, 인터셉터, 스케쥴러
+		트랜잭션 관리자, 웹소켓, 인터셉터, 스케쥴러
 	 -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
