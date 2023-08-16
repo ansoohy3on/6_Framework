@@ -98,3 +98,8 @@ UPDATE "MEMBER" SET
 MEMBER_PW = '$2a$10$5YqR4YuvKN1/vTUnfwlhH.1Ej0yb1m2gbwCBDAMqJS.in3fdBsJJ.';
 
 COMMIT;
+
+-- 회원 번호가 일치하는 회원의 비밀번호 변경
+UPDATE MEMBER SET
+MEMBER_PW = '값'
+WHERE MEMBER_NO = '번호';
