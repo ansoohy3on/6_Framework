@@ -118,11 +118,36 @@ memberEmail.addEventListener("input", () => {
 
     // 2) 입력 받은 이메일과 정규식 일치 여부 판별
     if(regEx.test(memberEmail.value)){ // 유효한 경우
-        emailMessage.innerText = "유효한 형식입니다.";
-        emailMessage.classList.add("confirm");
-        emailMessage.classList.remove("error");
 
-        checkObj.memberEmail = true; // 유효 O
+        /****************************************************************/
+        /* fetch() API를 이용한 ajax(비동기 통신) */
+
+        // GET 방식 ajax 요청(파라미터는 쿼리스트링으로!)
+        fetch("/dupCheck/email?email=" + memberEmail.value)
+
+        .then( response => response.text()) // 응답 객체 -> 파싱(parsing, 데이터 형태 변환)
+
+        .then( count => {
+            // count : 중복되면 1, 중복 아니면 0
+            if(count == 0){
+                emailMessage.innerText = "사용 가능한 이메일입니다.";
+                emailMessage.classList.add("confirm");
+                emailMessage.classList.remove("error");
+        
+                checkObj.memberEmail = true; // 유효 O
+
+            } else {
+                emailMessage.innerText = "이미 사용 중인 이메일입니다.";
+                emailMessage.classList.add("error");
+                emailMessage.classList.remove("confirm");
+        
+                checkObj.memberEmail = false; // 유효 X
+            }
+        }) // 파싱한 데이터를 이용해서 수행할 코드 작성
+ 
+        .catch(err => console.log(err)) // 예외 처리
+
+        /****************************************************************/
 
     } else{ // 유효하지 않은 경우
         emailMessage.innerText = "이메일 형식이 유효하지 않습니다.";
@@ -249,11 +274,30 @@ memberNickname.addEventListener("input", ()=>{
     const regEx = /^[가-힣\w\d]{2,10}$/;
 
     if(regEx.test(memberNickname.value)){ // 유효
-        nickMessage.innerText = "유효한 닉네임 형식입니다.";
-        nickMessage.classList.add("confirm");
-        nickMessage.classList.remove("error");
 
-        checkObj.memberNickname = true;
+        fetch("/dupCheck/nickname?nickname=" + memberNickname.value)
+        .then(resp => resp.text()) // 응답 객체를 text로 파싱(변환)
+        .then(count => {
+
+            if(count == 0){ // 중복이 아닌 경우
+                
+                nickMessage.innerText = "사용 가능한 닉네임입니다.";
+                nickMessage.classList.add("confirm");
+                nickMessage.classList.remove("error");
+        
+                checkObj.memberNickname = true;
+
+            } else { // 중복인 경우
+
+                nickMessage.innerText = "이미 사용 중인 닉네임입니다.";
+                nickMessage.classList.add("error");
+                nickMessage.classList.remove("confirm");
+        
+                checkObj.memberNickname = false;
+            }
+
+        })
+        .catch(err => console.log(err));
 
     } else{ // 무효
         nickMessage.innerText = "닉네임 형식이 유효하지 않습니다.";

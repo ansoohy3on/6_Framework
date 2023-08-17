@@ -61,6 +61,9 @@
 
     </main>
 
+    <%-- myPage.js 연결 --%>
+    <script src="/resources/js/myPage/myPage.js"></script>
+
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 
 </body>
