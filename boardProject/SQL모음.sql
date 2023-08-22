@@ -414,23 +414,23 @@ COMMIT;
 -- 게시글 샘플 이미지 삽입
 INSERT INTO BOARD_IMG
 VALUES(SEQ_IMG_NO.NEXTVAL, '/resources/images/board/',
-        '20230821141913_00001.png', 'bear.png', 0, 1999);
+        '20230821141913_00001.png', 'bear.png', 0, 2000);
         
 INSERT INTO BOARD_IMG
 VALUES(SEQ_IMG_NO.NEXTVAL, '/resources/images/board/',
-        '20230821141913_00002.png', 'bear2.png', 0, 1988);
+        '20230821141913_00002.png', 'bear2.png', 0, 1996);
         
 INSERT INTO BOARD_IMG
 VALUES(SEQ_IMG_NO.NEXTVAL, '/resources/images/board/',
-        '20230821141913_00003.jpg', 'bear3.jpg', 0, 1986);
+        '20230821141913_00003.jpg', 'bear3.jpg', 0, 1985);
         
 INSERT INTO BOARD_IMG
 VALUES(SEQ_IMG_NO.NEXTVAL, '/resources/images/board/',
-        '20230821141913_00004.jpg', 'bear4.jpg', 0, 1976);
+        '20230821141913_00004.jpg', 'bear4.jpg', 0, 1970);
         
 INSERT INTO BOARD_IMG
 VALUES(SEQ_IMG_NO.NEXTVAL, '/resources/images/board/',
-        '20230821141913_00005.png', 'bear5.png', 0, 1975);
+        '20230821141913_00005.png', 'bear5.png', 0, 1968);
         
 COMMIT;
 
@@ -500,3 +500,76 @@ SELECT BOARD_NO, BOARD_TITLE, MEMBER_NICKNAME, READ_COUNT,
       WHERE BOARD_DEL_FL = 'N'
       AND BOARD_CODE = 1
       ORDER BY BOARD_NO DESC;
+      
+-- 게시글 상세 조회
+SELECT BOARD_NO, BOARD_TITLE, BOARD_CONTENT, BOARD_CODE,
+        READ_COUNT, MEMBER_NICKNAME, MEMBER_NO, PROFILE_IMG,
+        TO_CHAR(B_CREATE_DATE, 'YYYY"년" MM"월" DD"일" HH24:MI:SS') B_CREATE_DATE,
+        TO_CHAR(B_UPDATE_DATE, 'YYYY"년" MM"월" DD"일" HH24:MI:SS') B_UPDATE_DATE,
+        (SELECT COUNT(*)
+        FROM BOARD_LIKE L
+        WHERE L.BOARD_NO = B.BOARD_NO) LIKE_COUNT
+FROM BOARD B
+JOIN MEMBER USING(MEMBER_NO)
+WHERE BOARD_DEL_FL = 'N'
+AND BOARD_CODE = 1
+AND BOARD_NO = 2000;
+
+SELECT * FROM BOARD_LIKE;
+
+SELECT * FROM BOARD ORDER BY 1 DESC;
+
+-- 게시글 좋아요 샘플 데이터 삽입
+INSERT INTO BOARD_LIKE VALUES(2000, 1);
+INSERT INTO BOARD_LIKE VALUES(2000, 2);
+
+COMMIT;
+
+-- 특정 게시글의 좋아요 개수 카운트
+SELECT COUNT(*)
+FROM BOARD_LIKE L
+WHERE L.BOARD_NO = 2000;
+      
+-- 특정 게시글에 대한 이미지 조회(IMG_ORDER 오름차순)
+SELECT * FROM BOARD_IMG
+WHERE BOARD_NO = 2000
+ORDER BY IMG_ORDER;
+
+INSERT INTO BOARD_IMG
+VALUES(SEQ_IMG_NO.NEXTVAL,
+    '/resources/images/board/',
+    '20230821141913_00002.png',
+    'bear2.png',
+    1, 2000);
+    
+INSERT INTO BOARD_IMG
+VALUES(SEQ_IMG_NO.NEXTVAL,
+    '/resources/images/board/',
+    '20230821141913_00003.jpg',
+    'bear3.jpg',
+    2, 2000);
+
+COMMIT;
+
+-- 특정 게시글에 대한 댓글 목록 조회(바뀔 예정)
+SELECT COMMENT_NO, COMMENT_CONTENT,
+    TO_CHAR(C_CREATE_DATE, 'YYYY"년" MM"월" DD"일" HH24"시" MI"분" SS"초"') C_CREATE_DATE,
+    BOARD_NO, MEMBER_NO, MEMBER_NICKNAME, PROFILE_IMG, PARENT_NO, COMMENT_DEL_FL
+FROM "COMMENT"
+JOIN MEMBER USING(MEMBER_NO)
+WHERE BOARD_NO = 2000
+ORDER BY COMMENT_NO
+;
+
+-- 회원 프로필 이미지 변경
+UPDATE MEMBER SET
+PROFILE_IMG = '/resources/images/member/nnn.jpg'
+WHERE MEMBER_NO = 1;
+
+COMMIT;
+
+-- 좋아요 여부 확인
+SELECT COUNT(*) FROM BOARD_LIKE
+WHERE BOARD_NO = 2000 -- 게시글 번호
+AND MEMBER_NO = 1 -- 로그인한 회원 번호
+;
