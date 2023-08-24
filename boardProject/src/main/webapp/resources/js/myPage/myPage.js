@@ -160,3 +160,13 @@ if(secessionFrm != null){
         }
     })
 }
+
+// --------------------------------------------------------------------------------------------
+// 프로필 이미지 추가/변경/삭제
+const profileImage = document.getElementById("profileImage"); // img 태그
+const deleteImage = document.getElementById("deleteImage"); // x 버튼
+const imageInput = document.getElementById("imageInput"); // input 태그
+
+if(){ // 화면에 imageInput이 있을 경우
+
+}
