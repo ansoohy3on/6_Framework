@@ -59,4 +59,12 @@ public class MyPageDAO {
 		// sqlSessionTemplate : 마이바티스 + DBCP + close 자동 + 트랜잭션 처리
 		return sqlSession.update("myPageMapper.secession", memberNo);
 	}
+
+	/** 프로필 이미지 수정
+	 * @param loginMember
+	 * @return result
+	 */
+	public int updateProfile(Member loginMember) {
+		return sqlSession.update("myPageMapper.updateProfile", loginMember);
+	}
 }
