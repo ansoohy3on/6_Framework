@@ -636,3 +636,4 @@ FROM(SELECT '웹접근경로' IMG_PATH, '변경명' IMG_RENAME, '원본명' IMG_
 ;
 
 ROLLBACK;
+
