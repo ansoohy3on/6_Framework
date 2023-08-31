@@ -188,6 +188,8 @@
 
         console.log(boardNo);
         console.log(loginMemberNo);
+
+        const boardCode = "${boardCode}";
     </script>
 
     <%-- boardDetail.js 연결 --%>
