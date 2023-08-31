@@ -68,3 +68,15 @@ updateBtn.addEventListener("click", ()=>{
 
             // /board2/1/2012/update?cp=1 (GET)
 })
+
+// 게시글 삭제 버튼이 클릭 되었을 때
+document.getElementById("deleteBtn").addEventListener("click", () => {
+
+    if(confirm("정말 삭제 하시겠습니까?")){
+        location.href 
+        = location.pathname.replace("board","board2")
+            + "/delete";
+            + location.search;
+        //   /board2/1/2006/delete (GET)
+    }
+})

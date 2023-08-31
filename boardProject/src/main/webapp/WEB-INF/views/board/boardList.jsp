@@ -141,8 +141,8 @@
 
             </div>
 
-         <!-- 검색창 -->
-            <form action="#" method="get" id="boardSearch">
+            <!-- 검색창 -->
+            <form action="${boardCode}" method="get" id="boardSearch">
 
                 <select name="key" id="searchKey">
                     <option value="t">제목</option>

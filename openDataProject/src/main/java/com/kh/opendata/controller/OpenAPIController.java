@@ -114,6 +114,8 @@ public class OpenAPIController {
 		
 		HttpURLConnection urlConn = (HttpURLConnection) requestUrl.openConnection();
 		
+		urlConn.setRequestMethod("GET");
+		
 		BufferedReader br = new BufferedReader( new InputStreamReader(urlConn.getInputStream()) );
 		
 		String responseText = "";
