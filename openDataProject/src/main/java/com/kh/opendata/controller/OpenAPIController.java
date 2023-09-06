@@ -58,7 +58,7 @@ public class OpenAPIController {
 		
 		return responseText;
 	}
-	
+
 	// xml 형식으로 대기오염 OpenAPI 활용하기
 	@ResponseBody
 	@RequestMapping(value="air", produces="text/xml; charset=UTF-8")

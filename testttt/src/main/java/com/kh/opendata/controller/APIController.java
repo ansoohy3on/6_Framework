@@ -12,31 +12,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-public class testController {
+public class APIController {
 
 	private static final String serviceKey = "HWTS10u3V5oqV%2FkfC8oPQXrUseovkL6%2FnJCt7ZqN8uvwyXONrEcfOgKGurSdQPw%2F92nqhOvfq6xFcWxY7OKjrg%3D%3D";
 	
 	@ResponseBody
-	@RequestMapping(value = "shelter", produces = "text/xml; charset=UTF-8")
-	public String shelterMethod() throws IOException {
+	@RequestMapping(value = "air.do", produces = "application/json; charset=UTF-8")
+	public String airPollution(String location) throws IOException {
 		
-		String url = "http://apis.data.go.kr/1741000/TsunamiShelter3/getTsunamiShelter1List";
+		String url = "http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty";
+		
+		// url에 parameter 정보들을 추가하시오.
 		url += "?serviceKey=" + serviceKey;
-		url += "&pageNo=1";
-		url += "&numOfRows=2";
-		url += "&type=xml";
+		url += "&returnType=json";
+		url += "&sidoName=" + URLEncoder.encode(location, "UTF-8");
 		
 		URL requestUrl = new URL(url);
-		
 		HttpURLConnection urlConnection = (HttpURLConnection) requestUrl.openConnection();
-		
 		urlConnection.setRequestMethod("GET");
-
+		
 		BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 		
-		String responseText = null;
+		String responseText = "";
 		String line;
-		
 		while((line=br.readLine()) != null) {
 			responseText += line;
 		}
@@ -44,7 +42,8 @@ public class testController {
 		br.close();
 		urlConnection.disconnect();
 		
+		System.out.println(responseText);
+		
 		return responseText;
 	}
-
 }

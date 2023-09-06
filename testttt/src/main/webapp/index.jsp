@@ -1,78 +1,123 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 
-<title>지진해일 대피소</title>
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Insert title here</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
 </head>
+
 <body>
 
-	<button id="btn">조회</button>
+	<h2>실시간 대기오염 정보</h2>
 
-	<table border="1" id="result">
+	지역 :
+
+	<select id="location">
+
+		<option>서울</option>
+
+		<option>부산</option>
+
+		<option>대전</option>
+
+	</select>
+	<%-- 내용이 많아 3개만 option 지정 --%>
+
+	<button id="btn1">해당 지역 대기오염 정보</button>
+
+	<br>
+	<br>
+
+	<table id="result1" border="1">
+
 		<thead>
+
 			<tr>
-				<th>일련번호</th>
-				<th>시도명</th>
-				<th>시군구명</th>
-				<th>대피지구명</th>
-				<th>대피장소명</th>
-				<th>주소</th>
-				<th>경도</th>
-				<th>위도</th>
-				<th>수용가능인원수</th>
-				<th>해변으로부터거리</th>
-				<th>대피소 분류명</th>
-				<th>해발높이</th>
+
+				<th>측정소명</th>
+
+				<th>측정일시</th>
+
+				<th>통합대기환경수치</th>
+
+				<th>미세먼지농도</th>
+
+				<th>일산화탄소농도</th>
+
+				<th>이산화질소농도</th>
+
+				<th>아황산가스농도</th>
+
+				<th>오존농도</th>
+
 			</tr>
+
 		</thead>
-		<tbody></tbody>
+
+		<tbody>
+
+		</tbody>
+
 	</table>
 
 	<script>
-	
-		$(function(){
-			$("#btn").click(function(){
+		$(function() {
+
+			$("#btn1").click(function() {
+
 				$.ajax({
-					
-					url : "shelter",
-					data : {},
-					success : function(result){
-						
-						const shelterArr = $(result).find("row");
-						
-						let value;
-						shelterArr.each(function(index, shelter){
-							
-							value += "<tr>"
-									+ "<td>" + $(shelter).find("id").text() + "</td>"
-									+ "<td>" + $(shelter).find("sido_name").text() + "</td>"
-									+ "<td>" + $(shelter).find("sigungu_name").text() + "</td>"
-									+ "<td>" + $(shelter).find("remarks").text() + "</td>"
-									+ "<td>" + $(shelter).find("shel_nm").text() + "</td>"
-									+ "<td>" + $(shelter).find("address").text() + "</td>"
-									+ "<td>" + $(shelter).find("lon").text() + "</td>"
-									+ "<td>" + $(shelter).find("lat").text() + "</td>"
-									+ "<td>" + $(shelter).find("shel_av").text() + "</td>"
-									+ "<td>" + $(shelter).find("lenth").text() + "</td>"
-									+ "<td>" + $(shelter).find("shel_div_type").text() + "</td>"
-									+ "<td>" + $(shelter).find("height").text() + "</td>"
-									+ "</tr>"
-									
-						});
-							
-						$("#result > tbody").html(value);
-						
+
+					url : "air.do",
+
+					data : {
+						location : $("#location").val()
 					},
-					error : function(){
-						console.log("에러 발생");
+
+					success : function(data) {
+
+						const itemArr = data.response.body.items;
+
+						let value = "";
+
+						for ( let i of itemArr) {
+							
+							// for문 안에 있는 내용을 코딩하시오.
+							value += "<tr>" +
+									"<td>" + i.stationName + "</td>" +
+									"<td>" + i.dataTime + "</td>" +
+									"<td>" + i.khaiValue + "</td>" +
+									"<td>" + i.pm10Value + "</td>" +
+									"<td>" + i.coValue + "</td>" +
+									"<td>" + i.no2Value + "</td>" +
+									"<td>" + i.so2Value + "</td>" +
+									"<td>" + i.o3Value + "</td>" +
+									"</tr>";
+								
+						}
+						
+						$("#result1 tbody").html(value);
+
+					},
+					
+					error: function() {console.log("에러")						
 					}
+					
+
 				})
+
 			})
+
 		})
-	
 	</script>
+
 </body>
+
 </html>
